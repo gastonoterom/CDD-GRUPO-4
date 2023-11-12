@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predecir enfermedades respiratorias crónicas en un País</title>
+    <title>Predecir muertes por enfermedades respiratorias crónicas en un País</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body class="container">
 
-    <h1 class="mt-4">Predecir enfermedades respiratorias crónicas en un País</h1>
+    <h1 class="mt-4">Predecir muertes por enfermedades respiratorias crónicas en un País</h1>
 
     <form id="healthForm" class="mt-4">
+        <div class="form-group">
+            <label for="kidney">Ingresar la población del país:</label>
+            <input type="text" id="population" class="form-control" placeholder="e.g., 10000000" required>
+        </div>
+
         <div class="form-group">
             <label for="kidney">Ingresar cantidad de muertes por Enfermedades renales:</label>
             <input type="text" id="kidney" class="form-control" placeholder="e.g., 10045" required>
@@ -42,6 +47,7 @@
     <script>
         function submitForm() {
             // Get input value
+            var population = document.getElementById("population").value;
             var kidney = document.getElementById("kidney").value;
             var meningitis = document.getElementById("meningitis").value;
             var cholera = document.getElementById("cholera").value;
@@ -52,7 +58,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ kidney, meningitis, cholera }),
+                body: JSON.stringify({ population, kidney, meningitis, cholera }),
             })
             .then(response => response.json())
             .then(data => {

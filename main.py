@@ -10,6 +10,7 @@ app = FastAPI()
 
 @dataclass
 class PredictBody:
+    population: int
     kidney: float
     meningitis: float
     cholera: float
@@ -27,18 +28,17 @@ model = load('sandbox/data/rf_model.joblib')
 def predict(body: PredictBody) -> PredictResponse:
 
     body_data = {
-        'Chronic kidney disease': body.kidney,
-        'Meningitis': body.meningitis,
-        'Diarrheal diseases': body.cholera,
+        'Chronic kidney disease': body.kidney / 10,
+        'Meningitis': body.meningitis / 10,
+        'Diarrheal diseases': body.cholera / 10,
     }
 
-    # Create a DataFrame using the body_data
     df = pd.DataFrame([body_data])
 
-    prediction = model.predict(df)
+    prediction = model.predict(df)[0]
 
     return PredictResponse(
-        respiratory_prediction=prediction[0],
+        respiratory_prediction=prediction * 100,
     )
 
 
