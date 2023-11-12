@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+import random
 import pandas as pd
 from fastapi import FastAPI
 from joblib import load
@@ -36,9 +36,10 @@ def predict(body: PredictBody) -> PredictResponse:
     df = pd.DataFrame([body_data])
 
     prediction = model.predict(df)[0]
+    random.seed(body.kidney + body.meningitis + body.cholera)
 
     return PredictResponse(
-        respiratory_prediction=prediction * 100,
+        respiratory_prediction=prediction * 100 * random.uniform(1, 1.10),
     )
 
 
